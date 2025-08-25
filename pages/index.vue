@@ -1,6 +1,7 @@
 <template>
   <div>
     <SearchBar v-model="search" placeholder="Search Pokémon..." />
+    <!--Loop and display filtered pokemon in a grid-->
     <div class="pokemon-grid">
       <PokemonCard
         v-for="pokemon in filteredPokemon"
@@ -26,6 +27,7 @@ interface Pokemon {
 const pokemonList = ref<Pokemon[]>([])
 const search = ref('')
 
+// API call via Axios
 const fetchPokemon = async () => {
   const promises = Array.from({ length: 60 }, (_, i) =>
     axios.get(`https://pokeapi.co/api/v2/pokemon/${i + 1}`)

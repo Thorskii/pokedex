@@ -38,6 +38,7 @@ interface Pokemon {
 const route = useRoute()
 const pokemon = ref<Pokemon | null>(null)
 
+// Axios API call 
 const fetchPokemon = async () => {
   const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${route.params.id}`)
   pokemon.value = {
@@ -55,6 +56,7 @@ onMounted(fetchPokemon)
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
+// Pokemon abilites set to capitalized, comma delimiting string
 const abilities = computed(() =>
   pokemon.value
     ? pokemon.value.abilities.map(a => capitalize(a.ability.name)).join(', ')

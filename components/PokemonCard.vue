@@ -1,5 +1,7 @@
 <template>
   <NuxtLink :to="`/pokemon/${pokemon.id}`" class="card">
+    
+    <!-- Show back sprite container -->
     <div 
       class="img-container" 
       @mouseenter="showBack = true" 
@@ -10,6 +12,7 @@
 
     <p>{{ capitalize(pokemon.name) }}</p>
 
+    <!-- Type badges -->
     <div class="types">
       <span v-for="t in pokemon.types" :key="t.type.name" :class="'type-' + t.type.name">
         {{ capitalize(t.type.name) }}
