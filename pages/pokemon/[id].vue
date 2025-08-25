@@ -1,21 +1,25 @@
 <template>
-  <div v-if="pokemon">
-    <h1>{{ capitalize(pokemon.name) }}</h1>
-    <img :src="pokemon.image" :alt="pokemon.name" />
-    <div class="types">
-      <span
-        v-for="t in pokemon.types"
-        :key="t.type.name"
-        :class="'type-' + t.type.name"
-      >
-        {{ capitalize(t.type.name) }}
-      </span>
+  <div v-if="pokemon" class="detail-page">
+    <div class="card large-card" :style="{ borderColor: typeColors[pokemon.types[0]?.type.name] || '#ccc' }">
+      <div class="sprite-container">
+        <img :src="pokemon.animatedFront" :alt="pokemon.name + ' front'" class="pokemon-image front" />
+        <img :src="pokemon.animatedBack" :alt="pokemon.name + ' back'" class="pokemon-image back" />
+      </div>
+
+      <h1>{{ capitalize(pokemon.name) }}</h1>
+
+      <div class="types">
+        <span v-for="t in pokemon.types" :key="t.type.name" :class="'type-' + t.type.name">
+          {{ capitalize(t.type.name) }}
+        </span>
+      </div>
+
+      <div class="stats">
+        <p>Height: {{ pokemon.height }} m</p>
+        <p>Weight: {{ pokemon.weight }} kg</p>
+        <p>Abilities: {{ abilities }}</p>
+      </div>
     </div>
-    <p>Height: {{ pokemon.height }}</p>
-    <p>Weight: {{ pokemon.weight }}</p>
-    <p>Abilities: {{ abilities }}</p>
-
-
   </div>
 </template>
 
@@ -28,11 +32,36 @@ interface Pokemon {
   name: string
   image: string
   backImage: string
+  animatedFront?: string
+  animatedBack?: string
   height: number
   weight: number
   abilities: { ability: { name: string } }[]
   types: { type: { name: string } }[]
 }
+
+// Color map
+const typeColors: Record<string, string> = {
+  fire: '#f08030',
+  water: '#6890f0',
+  grass: '#78c850',
+  electric: '#f8d030',
+  ice: '#98d8d8',
+  fighting: '#c03028',
+  poison: '#a040a0',
+  bug: '#A6B91A',
+  normal: '#A8A77A',
+  ground: '#E2BF65',
+  flying: '#A98FF3',
+  psychic: '#F95587',
+  rock: '#B6A136',
+  ghost: '#735797',
+  dragon: '#6F35FC',
+  dark: '#705746',
+  steel: '#B7B7CE',
+  fairy: '#D685AD',
+}
+
 
 
 const route = useRoute()
@@ -44,9 +73,11 @@ const fetchPokemon = async () => {
   pokemon.value = {
     name: res.data.name,
     image: res.data.sprites.front_default,
-    backImage: res.data.sprites.back_default, 
-    height: res.data.height,
-    weight: res.data.weight,
+    backImage: res.data.sprites.back_default,
+    animatedFront: res.data.sprites.versions['generation-v']['black-white'].animated.front_default,
+    animatedBack: res.data.sprites.versions['generation-v']['black-white'].animated.back_default,
+    height: (res.data.height / 10),
+    weight: (res.data.weight / 10),
     abilities: res.data.abilities,
     types: res.data.types
   }
@@ -66,18 +97,65 @@ const abilities = computed(() =>
 
 <style>
 .types {
-  margin-top: 0.5rem;
+  margin: 0.5 rem;
   display: flex;
-  gap: 0.3rem;
+  gap: 5px;
 }
 
 .types span {
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 15px;
   color: white;
-  font-size: 0.7rem;
+  font-size: 2 rem;
 }
 
+.sprite-container {
+  position: relative;
+  width: 150px; 
+  height: 150px;
+  margin: 1rem auto; 
+}
+
+.pokemon-image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+}
+
+/* back sprite fades in on hover */
+.pokemon-image.back {
+  opacity: 0;
+}
+
+.sprite-container:hover .pokemon-image.front {
+  opacity: 0;
+}
+
+.sprite-container:hover .pokemon-image.back {
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .sprite-container {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .sprite-container {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+
+/* Type colors */
 .type-fire { background-color: #f08030; }
 .type-water { background-color: #6890f0; }
 .type-grass { background-color: #78c850; }
@@ -97,4 +175,57 @@ const abilities = computed(() =>
 .type-steel { background-color: #B7B7CE; }
 .type-fairy { background-color: #D685AD; }
 
+.detail-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  background-image: url("assets/Pokemonbg.png")
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  border: 4px solid;
+  padding: 2rem;
+  border-radius: 16px;
+  background: white;
+  color: black;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+.large-card {
+  width: 325px;
+  max-width: 90%;
+  padding: 16px;
+}
+
+.img-container {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 1rem;
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.stats {
+  margin-top: 10px;
+  justify-content: center;
+  width: 100%;
+  border: 2px solid rgba(0, 0, 0, 0.048);
+  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.048);
+  
+}
+
+.stats p {
+  margin: 10px;
+}
 </style>

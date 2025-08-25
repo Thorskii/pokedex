@@ -1,7 +1,13 @@
 <template>
   <div>
-    <SearchBar v-model="search" placeholder="Search Pokémon..." />
-    <!--Loop and display filtered pokemon in a grid-->
+    <!-- Updated SearchBar with type support -->
+    <SearchBar
+      v-model="search"
+      :types="allTypes"
+      placeholder="Search Pokémon..."
+    />
+
+    <!-- Loop and display filtered pokemon in a grid -->
     <div class="pokemon-grid">
       <PokemonCard
         v-for="pokemon in filteredPokemon"
@@ -22,10 +28,19 @@ interface Pokemon {
   id: number
   name: string
   image: string
+  backImage: string
+  animatedFront?: string
+  types: { type: { name: string } }[]
 }
 
+// Store Pokémon
 const pokemonList = ref<Pokemon[]>([])
-const search = ref('')
+
+// Search object: { name, type }
+const search = ref({ name: '', type: '' })
+
+// Collect all unique types
+const allTypes = ref<string[]>([])
 
 // API call via Axios
 const fetchPokemon = async () => {
@@ -37,16 +52,26 @@ const fetchPokemon = async () => {
     id: res.data.id,
     name: res.data.name,
     image: res.data.sprites.front_default,
-    backImage: res.data.sprites.back_default, // optional for hover
-    types: res.data.types // Array of type objects
+    backImage: res.data.sprites.back_default,
+    animatedFront: res.data.sprites.versions['generation-v']['black-white'].animated.front_default,
+    types: res.data.types
   }))
+
+  // Extract unique types
+  const typesSet = new Set<string>()
+  pokemonList.value.forEach(p =>
+    p.types.forEach(t => typesSet.add(t.type.name))
+  )
+  allTypes.value = Array.from(typesSet)
 }
 
 onMounted(fetchPokemon)
 
+// Filter by name and type
 const filteredPokemon = computed(() =>
   pokemonList.value.filter(p =>
-    p.name.toLowerCase().includes(search.value.toLowerCase())
+    p.name.toLowerCase().includes(search.value.name.toLowerCase()) &&
+    (search.value.type === '' || p.types.some(t => t.type.name === search.value.type))
   )
 )
 </script>
@@ -54,8 +79,22 @@ const filteredPokemon = computed(() =>
 <style scoped>
 .pokemon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
   margin-top: 1rem;
+  padding: 1rem;
+  background-image: url("assets/container_bg.png");
+}
+
+@media (max-width: 768px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
 }
 </style>
