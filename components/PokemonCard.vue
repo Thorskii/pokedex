@@ -1,6 +1,9 @@
 <template>
-  <NuxtLink :to="`/pokemon/${pokemon.id}`" class="card">
-    
+  <NuxtLink 
+    :to="`/pokemon/${pokemon.id}`" 
+    class="card"
+    :style="{ borderColor: typeColors[pokemon.types[0]?.type.name] || '#ccc' }"
+  >
     <!-- Show back sprite container -->
     <div 
       class="img-container" 
@@ -21,11 +24,34 @@
   </NuxtLink>
 </template>
 
+
 <script setup lang="ts">
 import { ref } from 'vue'
 defineProps<{
   pokemon: { id: number; name: string; image: string; backImage: string; types: any[] }
 }>()
+
+// Color map
+const typeColors: Record<string, string> = {
+  fire: '#f08030',
+  water: '#6890f0',
+  grass: '#78c850',
+  electric: '#f8d030',
+  ice: '#98d8d8',
+  fighting: '#c03028',
+  poison: '#a040a0',
+  bug: '#A6B91A',
+  normal: '#A8A77A',
+  ground: '#E2BF65',
+  flying: '#A98FF3',
+  psychic: '#F95587',
+  rock: '#B6A136',
+  ghost: '#735797',
+  dragon: '#6F35FC',
+  dark: '#705746',
+  steel: '#B7B7CE',
+  fairy: '#D685AD',
+}
 
 const showBack = ref(false)
 
@@ -38,7 +64,7 @@ const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  border: 1px solid #ccc;
+  border: 2px solid;
   padding: 0.5rem;
   border-radius: 8px;
   transition: transform 0.3s;
