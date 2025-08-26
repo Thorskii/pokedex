@@ -9,9 +9,14 @@
       <h1>{{ capitalize(pokemon.name) }}</h1>
 
       <div class="types">
-        <span v-for="t in pokemon.types" :key="t.type.name" :class="'type-' + t.type.name">
+        <NuxtLink
+          v-for="t in pokemon.types"
+          :key="t.type.name"
+          :to="{ path: '/', query: { type: t.type.name } }"
+          :class="['type-badge', 'type-' + t.type.name]"
+        >
           {{ capitalize(t.type.name) }}
-        </span>
+        </NuxtLink>
       </div>
 
       <div class="stats">
@@ -112,16 +117,23 @@ const abilities = computed(() =>
 
 <style>
 .types {
-  margin: 0.5 rem;
+  margin: 0.5rem;
   display: flex;
   gap: 5px;
 }
 
-.types span {
+.type-badge {
   padding: 0.4rem 0.8rem;
   border-radius: 15px;
   color: white;
-  font-size: 2 rem;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.type-badge:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 .sprite-container {

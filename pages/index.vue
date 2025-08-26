@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Updated SearchBar with type support -->
+    <!-- Search bar with type support -->
     <SearchBar
       v-model="search"
       :types="allTypes"
@@ -19,7 +19,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import PokemonCard from '~/components/PokemonCard.vue'
 import SearchBar from '~/components/SearchBar.vue'
@@ -41,6 +42,8 @@ const search = ref({ name: '', type: '' })
 
 // Collect all unique types
 const allTypes = ref<string[]>([])
+
+const route = useRoute()
 
 // API call via Axios
 const fetchPokemon = async () => {
@@ -65,7 +68,20 @@ const fetchPokemon = async () => {
   allTypes.value = Array.from(typesSet)
 }
 
-onMounted(fetchPokemon)
+onMounted(() => {
+  fetchPokemon()
+  if (route.query.type) {
+    search.value.type = String(route.query.type)
+  }
+})
+
+// Route listener
+watch(
+  () => route.query.type,
+  (newType) => {
+    search.value.type = newType ? String(newType) : ''
+  }
+)
 
 // Filter by name and type
 const filteredPokemon = computed(() =>
@@ -75,6 +91,7 @@ const filteredPokemon = computed(() =>
   )
 )
 </script>
+
 
 <style scoped>
 .pokemon-grid {
