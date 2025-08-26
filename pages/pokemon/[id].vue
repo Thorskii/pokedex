@@ -21,9 +21,9 @@
 
       <div class="stats">
         <h3>Information</h3>
-        <p>Height: {{ pokemon.height }} m</p>
-        <p>Weight: {{ pokemon.weight }} kg</p>
-        <p>Abilities: {{ abilities }}</p>
+        <p><b>Height:&nbsp;</b>{{ pokemon.height }} m</p>
+        <p><b>Weight:&nbsp;</b>{{ pokemon.weight }} kg</p>
+        <p><b>Abilities:&nbsp;</b>{{ abilities }}</p>
 
         <div class="base-stats">
           <h3>Base Stats</h3>
