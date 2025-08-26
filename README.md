@@ -1,3 +1,29 @@
+# 🐾 Pokédex App
+
+Welcome to **Pokédex** – your interactive Pokémon encyclopedia! 📖✨  
+
+Track, search, and explore your favorite Pokémon with animated sprites and detailed info.  
+
+---
+
+## 🚀 Features
+
+- 🔍 **Search Pokémon by name or type**  
+- 🎨 **Animated sprites** on hover for front and back images  
+- 📊 **Stats & information** including height, weight, and abilities  
+- 🌈 **Type badges** with colors for quick reference  
+- 🖥️ **Responsive design** for desktop and mobile  
+
+---
+
+## 🛠️ Technologies Used
+
+- ⚡ **Vue 3 & Nuxt 3** – Frontend framework  
+- 🔗 **Axios** – Fetch Pokémon data from the PokéAPI  
+- 🎨 **CSS / Flexbox & Grid** – Layout and styling  
+
+---
+
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
