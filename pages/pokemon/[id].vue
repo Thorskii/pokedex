@@ -15,9 +15,24 @@
       </div>
 
       <div class="stats">
+        <h3>Information</h3>
         <p>Height: {{ pokemon.height }} m</p>
         <p>Weight: {{ pokemon.weight }} kg</p>
         <p>Abilities: {{ abilities }}</p>
+
+        <div class="base-stats">
+          <h3>Base Stats</h3>
+          <div v-for="s in pokemon.stats" :key="s.stat.name" class="stat-row">
+            <span class="stat-name">{{ capitalize(s.stat.name) }}</span>
+            <div class="stat-bar">
+              <div
+                class="stat-fill"
+                :style="{ width: (s.base_stat / 255) * 100 + '%', backgroundColor: typeColors[pokemon.types[0]?.type.name] || '#333' }"
+              ></div>
+            </div>
+            <span class="stat-value">{{ s.base_stat }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -38,6 +53,7 @@ interface Pokemon {
   weight: number
   abilities: { ability: { name: string } }[]
   types: { type: { name: string } }[]
+  stats: { base_stat: number; stat: { name: string } }[]
 }
 
 // Color map
@@ -62,8 +78,6 @@ const typeColors: Record<string, string> = {
   fairy: '#D685AD',
 }
 
-
-
 const route = useRoute()
 const pokemon = ref<Pokemon | null>(null)
 
@@ -79,7 +93,8 @@ const fetchPokemon = async () => {
     height: (res.data.height / 10),
     weight: (res.data.weight / 10),
     abilities: res.data.abilities,
-    types: res.data.types
+    types: res.data.types,
+    stats: res.data.stats
   }
 }
 
@@ -198,7 +213,7 @@ const abilities = computed(() =>
 }
 
 .large-card {
-  width: 325px;
+  width: 500px;
   max-width: 90%;
   padding: 16px;
 }
@@ -225,7 +240,46 @@ const abilities = computed(() =>
   
 }
 
-.stats p {
-  margin: 10px;
+.stats p, .stats h3 {
+  margin: 6px 10px;
+}
+
+.base-stats {
+  margin-top: 1rem;
+}
+
+.base-stats h3 {
+  margin: 10px
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  margin: 6px 10px;
+  gap: 8px;
+}
+
+.stat-name {
+  width: 80px;
+  text-transform: capitalize;
+}
+
+.stat-bar {
+  flex: 1;
+  height: 10px;
+  background: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  border-radius: 5px;
+}
+
+.stat-value {
+  width: 30px;
+  text-align: right;
+  font-weight: bold;
 }
 </style>
