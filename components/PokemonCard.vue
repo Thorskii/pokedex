@@ -39,6 +39,7 @@ defineProps<{
   }
 }>()
 
+//Type color map
 const typeColors: Record<string, string> = {
   fire: '#f08030',
   water: '#6890f0',
@@ -86,10 +87,10 @@ const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 .img-container {
-  width: 96px;           /* fixed size container */
-  height: 96px;          /* fixed size container */
+  width: 96px;           
+  height: 96px;          
   position: relative;
-  overflow: hidden;      /* ensures GIFs don’t overflow */
+  overflow: hidden;
 }
 
 .img-container img {
@@ -97,8 +98,6 @@ const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 100%;       /* scale GIFs down */
-  max-height: 100%;      /* scale GIFs down */
 }
 
 .img-container img.back {
