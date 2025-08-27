@@ -1,20 +1,14 @@
 <template>
   <div class="search-container">
     <!-- Name search input -->
-    <input
-      type="text"
-      :value="modelValue.name"
-      @input="$emit('update:modelValue', { ...modelValue, name: $event.target.value })"
-      placeholder="Search Pokémon by name..."
-      class="search-input"
-    />
+    <input type="text" :value="modelValue.name"
+      @input="e => $emit('update:modelValue', { ...modelValue, name: (e.target as HTMLInputElement).value })"
+      placeholder="Search Pokémon by name..." class="search-input" />
 
     <!-- Type dropdown -->
-    <select
-      :value="modelValue.type"
-      @change="$emit('update:modelValue', { ...modelValue, type: $event.target.value })"
-      class="search-select"
-    >
+    <select :value="modelValue.type"
+      @change="e => $emit('update:modelValue', { ...modelValue, type: (e.target as HTMLSelectElement).value })"
+      class="search-select">
       <option value="">All types</option>
       <option v-for="t in types" :key="t" :value="t">{{ capitalize(t) }}</option>
     </select>

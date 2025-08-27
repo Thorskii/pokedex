@@ -1,9 +1,6 @@
 <template>
-  <NuxtLink 
-    :to="`/pokemon/${pokemon.id}`" 
-    class="card"
-    :style="{ borderColor: typeColors[pokemon.types[0]?.type.name] || '#ccc' }"
-  >
+  <NuxtLink :to="`/pokemon/${pokemon.id}`" class="card"
+    :style="{ borderColor: typeColors[pokemon.types[0]?.type.name] || '#ccc' }">
     <!-- Image container with hover swap -->
     <div class="img-container">
       <img :src="pokemon.image" :alt="pokemon.name" class="front" />
@@ -14,11 +11,7 @@
 
     <!-- Type badges -->
     <div class="types">
-      <span 
-        v-for="t in pokemon.types" 
-        :key="t.type.name" 
-        :class="'type-' + t.type.name"
-      >
+      <span v-for="t in pokemon.types" :key="t.type.name" :class="'type-' + t.type.name">
         {{ capitalize(t.type.name) }}
       </span>
     </div>
@@ -26,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 
 defineProps<{
   pokemon: { 
@@ -184,7 +176,6 @@ p {
   }
 }
 
-/* Type colors */
 .type-fire { background-color: #f08030; }
 .type-water { background-color: #6890f0; }
 .type-grass { background-color: #78c850; }

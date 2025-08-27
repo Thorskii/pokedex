@@ -12,7 +12,7 @@
     <div class="body">
       <NuxtPage />
     </div>
-      
+
 
     <footer>
       <p>© 2025 Austin Schroeder's Pokédex</p>
@@ -26,6 +26,7 @@
 * {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
 header {
   display: flex;
   justify-content: space-between;
@@ -47,9 +48,9 @@ header a {
 }
 
 .pokeball {
-  width: 30px;        /* adjust size */
+  width: 30px;
   height: 30px;
-  margin-right: 0.5rem; /* space between image and text */
+  margin-right: 0.5rem;
 }
 
 footer {
@@ -58,5 +59,4 @@ footer {
   color: #666;
   font-size: 0.9rem;
 }
-
 </style>

@@ -9,12 +9,8 @@
       <h1>{{ capitalize(pokemon.name) }}</h1>
 
       <div class="types">
-        <NuxtLink
-          v-for="t in pokemon.types"
-          :key="t.type.name"
-          :to="{ path: '/', query: { type: t.type.name } }"
-          :class="['type-badge', 'type-' + t.type.name]"
-        >
+        <NuxtLink v-for="t in pokemon.types" :key="t.type.name" :to="{ path: '/', query: { type: t.type.name } }"
+          :class="['type-badge', 'type-' + t.type.name]">
           {{ capitalize(t.type.name) }}
         </NuxtLink>
       </div>
@@ -30,10 +26,9 @@
           <div v-for="s in pokemon.stats" :key="s.stat.name" class="stat-row">
             <span class="stat-name">{{ capitalize(s.stat.name) }}</span>
             <div class="stat-bar">
-              <div
-                class="stat-fill"
-                :style="{ width: (s.base_stat / 255) * 100 + '%', backgroundColor: typeColors[pokemon.types[0]?.type.name] || '#333' }"
-              ></div>
+              <div class="stat-fill"
+                :style="{ width: (s.base_stat / 255) * 100 + '%', backgroundColor: typeColors[pokemon.types[0]?.type.name] || '#333' }">
+              </div>
             </div>
             <span class="stat-value">{{ s.base_stat }}</span>
           </div>
@@ -138,9 +133,9 @@ const abilities = computed(() =>
 
 .sprite-container {
   position: relative;
-  width: 150px; 
+  width: 150px;
   height: 150px;
-  margin: 1rem auto; 
+  margin: 1rem auto;
 }
 
 .pokemon-image {
@@ -180,9 +175,6 @@ const abilities = computed(() =>
     height: 250px;
   }
 }
-
-
-/* Type colors */
 .type-fire { background-color: #f08030; }
 .type-water { background-color: #6890f0; }
 .type-grass { background-color: #78c850; }

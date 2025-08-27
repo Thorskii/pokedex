@@ -1,19 +1,11 @@
 <template>
   <div>
     <!-- Search bar with type support -->
-    <SearchBar
-      v-model="search"
-      :types="allTypes"
-      placeholder="Search Pokémon..."
-    />
+    <SearchBar v-model="search" :types="allTypes" placeholder="Search Pokémon..." />
 
     <!-- Loop and display filtered pokemon in a grid -->
     <div class="pokemon-grid">
-      <PokemonCard
-        v-for="pokemon in filteredPokemon"
-        :key="pokemon.id"
-        :pokemon="pokemon"
-      />
+      <PokemonCard v-for="pokemon in filteredPokemon" :key="pokemon.id" :pokemon="pokemon" />
     </div>
   </div>
 </template>
@@ -34,13 +26,10 @@ interface Pokemon {
   types: { type: { name: string } }[]
 }
 
-// Store Pokémon
 const pokemonList = ref<Pokemon[]>([])
 
-// Search object: { name, type }
 const search = ref({ name: '', type: '' })
 
-// Collect all unique types
 const allTypes = ref<string[]>([])
 
 const route = useRoute()
